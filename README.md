@@ -27,10 +27,12 @@ In this repository, you will find
          that for each coordinate, either all of the numbers in that coordinate
          are the same or they are all different. 
    
-2. The python code includes several functions. Here are some listed according to
-   significance:
-   a. play_multiple_games(num_games=1000, selection_method='random_choice')
-      This function takes two input parameters num_games and selection_method. 
+2. The main function of the file is the function 
+   
+   play_multiple_games(num_games=1000, selection_method='random_choice')
+   
+   This function takes two input parameters of num_games and selection_method. 
+      
       The parameter num_games is the number of total games to be simulated, and
       its default value is 1000. 
       
@@ -49,8 +51,21 @@ In this repository, you will find
           remaining sets would be unavailable after removing the three cards from the
           table (because every card could participate in a number of possible sets).
       
-      The output of the function is a dataframe which collects some data during
-      every step of game play during each game that is simulated. 
+   The function collects data during the play of each game in a csv file called 'full_data.csv'. 
+   The columns of the csv file are, in order, 'deck_size', 'sets_remain', 'impact_factor','table_size',
+   and 'game_number'.
+      
+      'deck_size' describes the number of cards that remain in the deck
+      'sets_remain' describes the number of sets that could still be formed from the remaining cards
+      'impact_factor' describes the impact factor of the set that was chosen to be removed (which is zero if no sets can be removed)
+      'table_size' describes the number of cards on the table
+      'game_number' is an integer between 0 and num_games-1
+   
+   The exact number of rows in the csv file can vary depending on how game play went (e.g. whether
+   cards had to be added to the table or not). 
+      
+
+      
       
       
       
