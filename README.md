@@ -56,9 +56,13 @@ In this repository, you will find
    and 'game_number'.
       
       'deck_size' describes the number of cards that remain in the deck
+      
       'sets_remain' describes the number of sets that could still be formed from the remaining cards
+      
       'impact_factor' describes the impact factor of the set that was chosen to be removed (which is zero if no sets can be removed)
+      
       'table_size' describes the number of cards on the table
+      
       'game_number' is an integer between 0 and num_games-1
    
    The exact number of rows in the csv file can vary depending on how game play went (e.g. whether
