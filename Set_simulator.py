@@ -1,6 +1,5 @@
 from itertools import product
 import pandas as pd
-import numpy as np
 import random
 import time
 import csv
@@ -164,7 +163,7 @@ def play_multiple_games(num_games=1000, selection_method='random_choice'):
 	print('Full data was collected in a csv file named full_data.')
 
 
-#play_multiple_games(1000, selection_method='impact_factor')
+#play_multiple_games(num_games=1000, selection_method='impact_factor')
 
 
 
