@@ -5,13 +5,7 @@ import time
 import csv
 from datetime import timedelta
 
-def del_by_indices(list_object, indices):
-    indices = sorted(indices, reverse=True)
-
-    for index in indices:
-        if index < len(list_object):
-            list_object.pop(index)
-
+full_deck = list(product(range(3), repeat=4))
 
 def list_all_sets():
 	list_of_all_sets = []
@@ -30,6 +24,7 @@ def list_all_sets():
 				list_of_all_sets.append(set_of_three)
 	return list_of_all_sets
 
+list_of_all_sets = list_all_sets()
 
 def find_sets_indices(table):
 	indices = []
@@ -197,9 +192,12 @@ def get_indices_of_min_ext_impact(lst_indices, table, deck, list_of_remaining_se
 
 		return min_extended_impact_indices
 
+def del_by_indices(list_object, indices):
+    indices = sorted(indices, reverse=True)
 
-full_deck = list(product(range(3), repeat=4))
-list_of_all_sets = list_all_sets()
+    for index in indices:
+        if index < len(list_object):
+            list_object.pop(index)
 
 def play_game(selection_method = 'random_choice', debug=False):
 	if selection_method not in ['random_choice', 'quasi_thrifty', 'quasi_greedy', 'thrifty', 'greedy']:
@@ -273,6 +271,7 @@ def play_game(selection_method = 'random_choice', debug=False):
 						print(str(len(deck)) + ' cards still remain in the deck.')
 						print('Here is the new table.')
 						print(table)
+
 
 	game_status = [len(deck), len(table), 0, len(list_of_remaining_sets), 0]
 	game_data.append(game_status)
