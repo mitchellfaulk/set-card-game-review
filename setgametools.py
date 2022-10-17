@@ -273,14 +273,6 @@ def play_game(selection_method = 'random_choice', debug=False):
 						print(str(len(deck)) + ' cards still remain in the deck.')
 						print('Here is the new table.')
 						print(table)
-			# if len(table) <= 9 and len(deck) > 0:
-			# 	table.extend(deck[:3])
-			# 	del deck[:3]
-			# 	if debug:
-			# 		print('The dealer deals 3 more cards to the table.')
-			# 		print(str(len(deck)) + ' cards still remain in the deck.')
-			# 		print('Here is the new table.')
-			# 		print(table)  
 
 	game_status = [len(deck), len(table), 0, len(list_of_remaining_sets), 0]
 	game_data.append(game_status)
