@@ -90,21 +90,18 @@ setting is 100
 
 2. file_name [str], which is the desired name of the csv file containing the output data;
 the default setting is None, and in this case, the output file will have a name of 
-
-str(num_games) + '_' + selection_method.
-
-In other words, if 200 games are simulated with selection_method='quasi_thrifty', then the
-output csv file will be 200_quasi_thrifty.csv. 
+str(num_games) + '_' + selection_method.csv In other words, if 200 games are simulated 
+with selection_method='quasi_thrifty', then the output csv file will be 200_quasi_thrifty.csv. 
 
 The output csv file has 6 columns, and each row represents a status of a game. The status 
 changes when cards are removed or dealt. 
 
-'game_number' which is the number of the current game
-'deck_size' which is the number of cards that remain the deck
-'table_size' which is the current number of cards on the table
-'sets_available' which is the current number of available SETs on the table
-'sets_remain' which is the number of SETs that could be formed by replacement with the cards still available in the game
-'impact_factor' which is the impact factor of the SET that was selected to be removed at this step (or zero if no SETs present)
+1. 'game_number' which is the number of the current game
+2. 'deck_size' which is the number of cards that remain the deck
+3. 'table_size' which is the current number of cards on the table
+4. 'sets_available' which is the current number of available SETs on the table
+5. 'sets_remain' which is the number of SETs that could be formed by replacement with the cards still available in the game
+6. 'impact_factor' which is the impact factor of the SET that was selected to be removed at this step (or zero if no SETs present)
 
 ----
 
