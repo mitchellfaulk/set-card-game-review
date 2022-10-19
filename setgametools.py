@@ -314,8 +314,6 @@ def play_multiple_games(num_games=100, selection_method='random_choice', file_na
 
 		games_played += 1
 
-	
-
 	end = time.time()
 	total_time = round(end - start)
 	minutes = total_time // 60
