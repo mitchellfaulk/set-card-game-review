@@ -8,7 +8,7 @@ https://mitchellmfaulk.wordpress.com/2022/09/09/clearing-the-table-in-the-game-s
 
 The game is played with a deck of 81 (= 3^4) cards, which vary in four features across
 three possibilities for each feature. To simplify matters, we model the cards as 
-points in a vector space of dimension 4 in characteristic 3. More precisely, each
+points in a space of dimension 4 over a field of characteristic 3. More precisely, each
 card is a list of four elements, where each element is an integer among {0,1,2}. 
 
 The game proceeds by identifying and collecting SETs, which are collections of three
@@ -55,7 +55,7 @@ present in the code. The 'quasi_thrify' option was the first implementation, and
 improves upon 'quasi_thrify' by a small margin. 
 
 (Because the algorithms producing these options are of min-max type, they also naturally 
-enjoy counterparts, which achieve opposite results, and which I call 'quasi_greed' and
+enjoy counterparts, which achieve opposite results, and which I call 'quasi_greedy' and
 'greedy'.)
 
 Both of the 'quasi_thrify' and 'thrify' algorithms are based upon computations involving
