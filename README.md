@@ -30,8 +30,9 @@ difficult to know which types of SETs are most often identified first (though th
 some speculation), and so to model human play, we have included a method of simulation
 whereby the choice of SETs is always random. More precisely, for both of the functions
 
-play_game()
-play_multiple_games()
+1. play_game()
+
+2. play_multiple_games()
 
 there is a parameter selection_method, whose default value is set to 'random_choice'
 in order to model human play. When this setting is selected, every time there are 
