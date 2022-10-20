@@ -178,20 +178,6 @@ def best_indices_among_max_impact(all_max_impact_indices, table, list_of_remaini
 
 	return max_extended_impact_indices
 
-def get_indices_of_min_ext_impact(lst_indices, table, deck, list_of_remaining_sets, found_sets):
-	if found_sets == 0:
-		indices_of_min_ext_impact = lst_indices[0]
-
-	else:
-		min_average = 10000
-		for indices in lst_indices:
-			average = average_extended_impact(indices, table, deck, list_of_remaining_sets)
-			if average < min_average:
-				min_average = average
-				min_extended_impact_indices = indices
-
-		return min_extended_impact_indices
-
 def del_by_indices(list_object, indices):
     indices = sorted(indices, reverse=True)
 
