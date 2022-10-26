@@ -82,7 +82,6 @@ class SETGame:
 		return self
 
 	def __next__(self):
-		picked_position = None
 		if len(self.deck) == 3 ** self.dimension:
 			self.deal()
 			self.findSETs()
