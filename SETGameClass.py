@@ -77,6 +77,9 @@ class SETGame:
 
 		self.discard.append(SET)
 
+	def is_over(self):
+		return not (self.selectedposition or self.deck)
+
 	def __iter__(self):
 		self.shuffle()
 		return self
