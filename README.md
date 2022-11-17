@@ -1,101 +1,63 @@
-# set-card-game
+SET Game Simulator +
+====================
 
-The purpose of this repository is to provide a simulator for the card game SET. The full
-purpose is explained in much better detail in a series of blog posts, the first of which
-can be found at the following link
+***To study the statistics of the card game SET***
 
-https://mitchellmfaulk.wordpress.com/2022/09/09/clearing-the-table-in-the-game-set/. 
+**Author:** *Mitchell Faulk*
 
-The game is played with a deck of 81 (= 3^4) cards, which vary in four features across
-three possibilities for each feature. To simplify matters, we model the cards as 
-points in a vector space of dimension 4 in characteristic 3. More precisely, each
-card is a list of four elements, where each element is an integer among {0,1,2}. 
+# Description
 
-The game proceeds by identifying and collecting SETs, which are collections of three
-cards satisfying certain conditions in the game's instruction manual. It turns out
-that, if we identify cards with points in a vector space, then the cards lying at 
-points x, y, and z form a SET if and only if x + y + z = 0. 
+The purpose of this repository is to provide a simulator for the [card game SET](https://en.wikipedia.org/wiki/Set_(card_game)).
 
-In usual play, the game begins with 12 cards lying face-up on the table, and SETs 
-are collected from this table, being replaced by cards from the deck. In the instance
-that all players agree there are no cards on the table, three more cards are temporarily
-added. 
+The original objective was to understand the frequency distribution of the number 
+of cards leftover at the end of a game, or, more specifically, how often the table
+is cleared of cards entirely, a situation which we call a 'perfect game' and which 
+we study in greater detail in a [series](https://mitchellmfaulk.wordpress.com/2022/09/09/clearing-the-table-in-the-game-set/) of blog posts. 
 
-The game finishes once the deck runs out and all players agree there are no more SETs
-on the table. 
+A related objective was to test whether it was possible to develop *selection* algorithms
+to increase (or decrease) the likelihood of a perfect game. We wanted to design these
+selection algorithms to choose, among those available SETs on the table, the one (or ones)
+which would result in the most number of SETs being taken by the end of the game. In addition,
+we wanted to devise algorithms which only use information available to the players throughout
+the game, meaning that, in particular, the hidden (and shuffled) cards in the remaining deck
+should not be included in the algorithms input data. 
 
-During most of play, there are usually several SETs available on the table at the same
-time, and, when played by humans, the first SET to be identified is removed. It is 
-difficult to know which types of SETs are most often identified first (though there is
-some speculation), and so to model human play, we have included a method of simulation
-whereby the choice of SETs is always random. More precisely, for both of the functions
+Since its creation, the objective of this project has expanded, and, as of this
+writing, the simulator now permits the game to be played with cards having as
+many features as you'd like (the usual number of features is four). 
 
-1. play_game()
 
-2. play_multiple_games()
+# How to use
 
-there is a parameter selection_method, whose default value is set to 'random_choice'
-in order to model human play. When this setting is selected, every time there are 
-multiple SETs on the table, the computer chooses one at random to remove. 
+Place all of the files in the same directory in your computer. (Or clone the repository.)
 
-There are other options for selection_method as well, and, in fact, these other options
-are indicative of the main purpose of this simulator. 
 
-You see, when each game finishes, there are a certain number of cards left on the table, 
-typically 6 or 9, and always a multiple of 3. In very few games (around 1% with the 
-'random_choice' setting), the game ends with no cards left on the table at all. I wondered
-whether different selection_method's could affect the number of cards remaining at the
-game's end. In particular, I wondered whether I could devise an algorithm, which uses
-only the information of available to all current players, in order to select, from those 
-available SETs, the one(s) which might increase the chances of having a 'perfect' end
-game. 
+## Using setgametools.py
 
-The 'quasi_thrifty' and 'thrifty' selection methods are such options, based on algorithms
-present in the code. The 'quasi_thrifty' option was the first implementation, and 'thrifty'
-improves upon 'quasi_thrifty' by a small margin. 
+The script simulator.py is a minimal working example for using setgametools.py. 
+In simulator.py, the first line imports all of the functions from setgametools.py, 
+and then the next line calls the play_multiple_games() function with default values 
+for all parameters: num_games=100, selection_method='random_choice', file_name=None. 
 
-(Because the algorithms producing these options are of min-max type, they also naturally 
-enjoy counterparts, which achieve opposite results, and which I call 'quasi_greed' and
-'greedy'.)
+The parameter num_games refers to the number of games that are simulated. 
 
-Both of the 'quasi_thrifty' and 'thrifty' algorithms are based upon computations involving
-a quantity that I call 'impact_factor' and which is roughly defined as follows. 
+The parameter selection_method must be among 5 options: {'random_choice', 'quasi_thrifty', 
+'thrifty', 'quasi_greedy', 'greedy'}. The 'quasi_thrifty' and 'thrifty' choices are
+selection methods which are based on algorithms which try to collect as many SETs
+as possible by the end of the game in order to increase the likelihood of having a 
+'perfect' game. (The choice 'thrifty' improves upon 'quasi_thrifty' by a small amoung.)
+The other choices are the counterparts to these, meaning that they decrease the likelihood
+of having a 'perfect' game. 
 
-By selecting with replacement, it is possible to form, with a full deck of cards, a maximum
-of 1080 SETs. But the game proceeds without replacement, and so once certain cards are 
-removed from the game, they remove with them a certain number of elements from
-this list of 1080. I call this number of elements that would be removed by a SET its impact
-factor. 
 
-Because the goal of 'quasi_thrifty' and 'thrifty' is to form as many SETs as possible, the
-algorithms work by selecting those SETs with minimal impact factors, thereby leaving as many
-SETs as possible to be formed later in the game. In other words, the algorithms work by 
-computing the impact factor of each available SET on the table, and then selecting one of the
-SETs with minimal impact factor. 
+By running the minimal working example simulator.py, the output should be a csv file (in
+the same directory) which has the name 100_random_choice.csv. (A specific name for the output
+file can be chosen with the file_name parameter.)
 
-The 'thrifty' algorithm improves upon this a little further, because I noticed that there 
-could be instances where two SETs both achieve minimal impact factor, and so I wanted to 
-have a further ranking system which could select among such optimal options. So what the
-'thrifty' algorithm does is look ahead one step, and compute the impact factor of each of 
-those SETs that would be left remaining (from the original list of 1080) upon removing one
-of these optimal choices. The algorithm then adds up all of these impact factors, and it 
-selects the option with minimal sum. 
-
-The play_game() function also includes a debug variable, which can be set to True if you
-want to see how the game plays out. 
-
-The play_multiple_games() function includes two other variables:
-
-1. num_games [int], which is the number of games that are to be simulated; the default
-setting is 100
-
-2. file_name [str], which is the desired name of the csv file containing the output data;
-the default setting is None, and in this case, the output file will have a name of 
-str(num_games) + '_' + selection_method.csv In other words, if 200 games are simulated 
-with selection_method='quasi_thrifty', then the output csv file will be 200_quasi_thrifty.csv. 
-
-The output csv file has 6 columns, and each row represents a status of a game. The status 
-changes when cards are removed or dealt. 
+The csv file will display data from *each* game of the simulation. Precisely, for each game,
+it will contain a number of rows, each one corresponding to a different status of the 
+game being simulated. The status of a game changes when cards are removed or dealt. For each 
+status, the columns keep track of the following information:
 
 1. 'game_number' which is the number of the current game
 2. 'deck_size' which is the number of cards that remain the deck
@@ -104,11 +66,90 @@ changes when cards are removed or dealt.
 5. 'sets_remain' which is the number of SETs that could be formed by replacement with the cards still available in the game
 6. 'impact_factor' which is the impact factor of the SET that was selected to be removed at this step (or zero if no SETs present)
 
-----
 
-A minimal working example of the code is also provided in simulator.py. (The script will
-simulate 100 games with selection_method='random_choice', and it will take approximately
-2 seconds to complete the simulations. Some data from the simulations will be collected
-and stored in a csv file called 100_random_choice.csv. )
+## Using SETGameClass.py
 
+`class` SETGame(`dimension=4, table_size=dimension`)
+
+A class to collect the data of a SETGame. 
+
+Parameters:
+
+- __dimension__: `int` (Default is 4)
+
+- __table_size__: `int` (Default is `dimension`; then the starting table size for the game is 3*table_size)
+
+Attributes:
+
+- __.dimension__: `int` 
+- __.deck__: list (of lists)
+- __.table__: list (of lists)
+- __.discard__: list (of lists)
+- __.SETpositions__: list (of lists)
+- __.selectedposition__: list 
+- __.table_size__: `int`
+
+### Examples
+
+Constructing a game with 5 features and table size of 18
+
+```py
+>>> game = SETGame(dimension=5, table_size=6)
+```
+
+Printing all of the states of a standard game
+```py
+>>> game = SETGame()
+>>> for status in game: # game is an iterator
+>>> 	print(status)
+```
+
+Each status will return a tuple, the data of which is 
+```py
+status = (len_deck, table, discard, positions, selectedposition)
+```
+Here, `len_deck` is the number of cards remaining in the deck, and the other variables are defined as tuple versions of the corresponding attributes (e.g. `table = tuple(self.table)`). 
+
+To print the second table of a standard game:
+```py
+>>> game = SETGame()
+>>> iterator = iter(game)
+>>> first_state = next(iterator)
+>>> second_state = next(iterator)
+>>> second_table = second_state[1]
+>>> print(second_table)
+...
+...
+((1, 1, 0, 2), (2, 1, 2, 2), (1, 1, 1, 1), (2, 2, 1, 0), (0, 0, 0, 1), (2, 2, 0, 2), (1, 2, 1, 2), (2, 1, 1, 0), (0, 2, 2, 0), (0, 2, 0, 0), (0, 2, 0, 2), (2, 0, 1, 0))
+```
+
+# Collaborators
+
+Lance Rettberg has identified typos in the original version of the README file, and both Lance and Seth Rettberg have graciously listened to me rant far too much and too often about my difficulties (and successes) while working on this project. 
+
+Rachael Creager has offered to review the scripts so far and provide feedback. 
+
+# License
+
+MIT License
+
+Copyright (c) 2022 Mitchell Faulk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
