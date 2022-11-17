@@ -1,5 +1,4 @@
 from bitarray import bitarray
-from itertools import product
 
 a = bitarray('100')
 b = bitarray('010')
