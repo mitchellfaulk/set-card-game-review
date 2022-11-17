@@ -34,7 +34,7 @@ for card1 in deck:
 			if is_set(card1, card2, card3):
 				lst_sets.append([card1, card2, card3])
 
-print(len(lst_sets
+print(len(lst_sets))
 
 # returns 6480, which is 6 times the number of SETs (for a SET, the order of the items doesn't matter and there are 6 ways to order 3 cards) 
 
